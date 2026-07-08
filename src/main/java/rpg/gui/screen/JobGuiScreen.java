@@ -39,7 +39,7 @@ public final class JobGuiScreen {
                     return;
                 }
                 boolean changed = jobService.changeJob(clicker.getUniqueId(), type);
-                clicker.sendMessage(changed ? ChatColor.GREEN + type + "に転職しました。" : ChatColor.RED + "転職に失敗しました。");
+                clicker.sendMessage(changed ? ChatColor.GREEN + type.name() + "に転職しました。" : ChatColor.RED + "転職に失敗しました。");
                 if (changed) {
                     clicker.closeInventory();
                 }
