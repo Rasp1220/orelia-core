@@ -1,0 +1,93 @@
+# Weapon definitions (SOW section 6). Add a new weapon by adding a new key under
+# `weapons:` - no code change required.
+#
+# weapon-type: SWORD | SPEAR | AXE | BOW
+# rarity: COMMON | UNCOMMON | RARE | EPIC | LEGENDARY
+# element: NONE | FIRE | WATER | EARTH | WIND | LIGHT | DARK
+# required-job: SWORDSMAN | SPEARMAN | WARRIOR | ARCHER (blank = any job may use it)
+
+weapons:
+  wooden_training_sword:
+    name: "見習いの剣"
+    weapon-type: SWORD
+    level: 1
+    rarity: COMMON
+    attack-power: 4.0
+    element: NONE
+    crit-rate: 5.0
+    crit-multiplier: 1.5
+    required-job: SWORDSMAN
+    required-level: 1
+    description:
+      - "&7剣士見習いのための訓練用の剣。"
+    custom-model-data: 100001
+    sell-price: 10.0
+    skill-slot-count: 1
+
+  flame_longsword:
+    name: "紅蓮の長剣"
+    weapon-type: SWORD
+    level: 10
+    rarity: RARE
+    attack-power: 22.0
+    element: FIRE
+    crit-rate: 10.0
+    crit-multiplier: 1.8
+    required-job: SWORDSMAN
+    required-level: 10
+    description:
+      - "&7刀身が常に紅蓮の炎を纏う長剣。"
+    custom-model-data: 100002
+    sell-price: 500.0
+    skill-slot-count: 2
+
+  hunters_spear:
+    name: "狩人の槍"
+    weapon-type: SPEAR
+    level: 5
+    rarity: UNCOMMON
+    attack-power: 12.0
+    element: NONE
+    crit-rate: 8.0
+    crit-multiplier: 1.6
+    required-job: SPEARMAN
+    required-level: 5
+    description:
+      - "&7遠距離からの突きに優れた槍。"
+    custom-model-data: 100101
+    sell-price: 120.0
+    skill-slot-count: 2
+
+  berserkers_axe:
+    name: "狂戦士の斧"
+    weapon-type: AXE
+    level: 8
+    rarity: RARE
+    attack-power: 26.0
+    element: NONE
+    crit-rate: 6.0
+    crit-multiplier: 2.0
+    required-job: WARRIOR
+    required-level: 8
+    description:
+      - "&7重厚な一撃を放つ両手斧。"
+    custom-model-data: 100201
+    sell-price: 300.0
+    skill-slot-count: 2
+
+  hawkeye_bow:
+    name: "鷹の眼の弓"
+    weapon-type: BOW
+    level: 6
+    rarity: UNCOMMON
+    attack-power: 14.0
+    element: WIND
+    crit-rate: 15.0
+    crit-multiplier: 1.7
+    required-job: ARCHER
+    required-level: 6
+    description:
+      - "&7風を読む狩人のための弓。"
+    custom-model-data: 100301
+    sell-price: 180.0
+    skill-slot-count: 2

@@ -1,0 +1,43 @@
+# Reusable particle/sound bundles (SOW EffectModule). particle must be a valid
+# org.bukkit.Particle name, sound a valid org.bukkit.Sound name (or omitted for none).
+
+effects:
+  level_up:
+    particle: TOTEM_OF_UNDYING
+    particle-count: 40
+    spread-x: 0.6
+    spread-y: 1.0
+    spread-z: 0.6
+    sound: ENTITY_PLAYER_LEVELUP
+    sound-volume: 1.0
+    sound-pitch: 1.0
+
+  boss_phase_change:
+    particle: EXPLOSION
+    particle-count: 15
+    spread-x: 1.0
+    spread-y: 1.0
+    spread-z: 1.0
+    sound: ENTITY_WITHER_SPAWN
+    sound-volume: 1.0
+    sound-pitch: 0.8
+
+  quest_complete:
+    particle: HAPPY_VILLAGER
+    particle-count: 20
+    spread-x: 0.5
+    spread-y: 0.5
+    spread-z: 0.5
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    sound-volume: 1.0
+    sound-pitch: 1.2
+
+  enhancement_success:
+    particle: ENCHANT
+    particle-count: 30
+    spread-x: 0.4
+    spread-y: 0.6
+    spread-z: 0.4
+    sound: BLOCK_ANVIL_USE
+    sound-volume: 1.0
+    sound-pitch: 1.4
