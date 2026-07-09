@@ -1,0 +1,38 @@
+# Centralized user-facing text (SOW section 20).
+#
+# NOTE: this file is reserved for a follow-up pass that routes every hardcoded chat
+# message in the plugin through here (via rpg.core.config.ConfigManager, the same way
+# every other *.yml is loaded). It is not read by any code yet - treat it as the source
+# of truth for wording/translation review in the meantime.
+
+prefix: "&8[&6Orelia&8] &r"
+
+item:
+  requirement-not-met: "&cこの武器を使用する条件を満たしていません。"
+  unknown-weapon: "&c不明な武器IDです。"
+
+job:
+  not-chosen: "&e職業がまだ選択されていません。ギルドで職業を選びましょう。"
+  changed: "&a{job}に転職しました。"
+  change-failed: "&c転職に失敗しました。"
+
+skill:
+  wrong-weapon: "&cこの武器ではこのスキルを使用できません。"
+  not-socketed: "&c武器にスキルが装着されていません。"
+  not-learned: "&cこのスキルをまだ習得していません。"
+  on-cooldown: "&cスキルはクールタイム中です。"
+  not-enough-mp: "&cMPが足りません。"
+
+quest:
+  accepted: "&aクエストを受注しました。"
+  requirements-not-met: "&c受注条件を満たしていません。"
+  completed: "&aクエストを完了しました！"
+  report-failed: "&c報告に失敗しました。"
+
+economy:
+  insufficient-funds: "&c所持金が足りません。"
+
+dungeon:
+  party-too-small: "&cパーティ人数が足りません。"
+  party-too-large: "&cパーティ人数が多すぎます。"
+  already-in-dungeon: "&c既にダンジョンに入っています。"

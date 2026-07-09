@@ -1,0 +1,16 @@
+# Boss definitions (SOW section 14). A boss wraps an existing monsters.yml entry
+# (monster-id) and layers HP-threshold phases plus an enrage multiplier on top of it -
+# spawning, attack/defense, and death rewards all come from that underlying monster entry.
+
+bosses:
+  goblin_king_boss:
+    monster-id: goblin_king
+    enrage-hp-percent: 25
+    enrage-damage-multiplier: 1.75
+    phases:
+      phase_1:
+        hp-threshold-percent: 70
+        announce-message: "&c&lゴブリンキングが激怒し始めた！"
+      phase_2:
+        hp-threshold-percent: 40
+        announce-message: "&4&lゴブリンキングが雄叫びを上げる！"

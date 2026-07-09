@@ -1,0 +1,36 @@
+name: OreliaCore
+version: '${version}'
+main: rpg.core.OreliaPlugin
+api-version: '1.21'
+author: rasp1220
+description: RPG foundation plugin (combat, player, status) - weapons, skills, jobs, status, accessories, monsters, bosses, effects, economy, GUI, database, public API
+folia-supported: false
+
+commands:
+  rpgitem:
+    description: Manage RPG weapons
+    usage: /rpgitem <give|info> ...
+    permission: orelia.item
+    permission-message: You do not have permission to use this command.
+  rpgjob:
+    description: Manage RPG jobs
+    usage: /rpgjob <info|list> ...
+    permission: orelia.job
+  rpgstatus:
+    description: Open the status GUI
+    usage: /rpgstatus
+    permission: orelia.status
+  rpgadmin:
+    description: Administrative commands for Orelia Core
+    usage: /rpgadmin <reload|...> ...
+    permission: orelia.admin
+
+permissions:
+  orelia.item:
+    default: true
+  orelia.job:
+    default: true
+  orelia.status:
+    default: true
+  orelia.admin:
+    default: op

@@ -1,0 +1,90 @@
+# Monster definitions (SOW section 13). entity-type must be a valid org.bukkit.entity.EntityType.
+# ai-type: PASSIVE | AGGRESSIVE | RANGED
+# Each drop entry sets either weapon-id (an items.yml id) or vanilla-material (a Material name).
+
+monsters:
+  forest_slime:
+    name: "森のスライム"
+    entity-type: SLIME
+    hp: 15
+    attack-power: 2
+    defense: 0
+    element: NONE
+    ai-type: AGGRESSIVE
+    exp-reward: 5
+    money-min: 1
+    money-max: 3
+    drops:
+      slime_ball:
+        vanilla-material: SLIME_BALL
+        chance-percent: 60
+        min-amount: 1
+        max-amount: 2
+    skills: []
+
+  goblin_raider:
+    name: "ゴブリンの略奪者"
+    entity-type: ZOMBIE
+    hp: 40
+    attack-power: 5
+    defense: 2
+    element: NONE
+    ai-type: AGGRESSIVE
+    exp-reward: 15
+    money-min: 5
+    money-max: 12
+    drops:
+      rotten_flesh:
+        vanilla-material: ROTTEN_FLESH
+        chance-percent: 80
+        min-amount: 1
+        max-amount: 2
+      training_sword:
+        weapon-id: wooden_training_sword
+        chance-percent: 5
+        min-amount: 1
+        max-amount: 1
+    skills: []
+
+  skeletal_archer:
+    name: "骸骨の弓兵"
+    entity-type: SKELETON
+    hp: 30
+    attack-power: 4
+    defense: 1
+    element: NONE
+    ai-type: RANGED
+    exp-reward: 18
+    money-min: 6
+    money-max: 14
+    drops:
+      arrow:
+        vanilla-material: ARROW
+        chance-percent: 70
+        min-amount: 2
+        max-amount: 5
+    skills: []
+
+  goblin_king:
+    name: "ゴブリンキング"
+    entity-type: ZOMBIE
+    hp: 400
+    attack-power: 12
+    defense: 5
+    element: NONE
+    ai-type: AGGRESSIVE
+    exp-reward: 200
+    money-min: 100
+    money-max: 250
+    drops:
+      flame_longsword:
+        weapon-id: flame_longsword
+        chance-percent: 15
+        min-amount: 1
+        max-amount: 1
+      emerald:
+        vanilla-material: EMERALD
+        chance-percent: 100
+        min-amount: 3
+        max-amount: 8
+    skills: []
