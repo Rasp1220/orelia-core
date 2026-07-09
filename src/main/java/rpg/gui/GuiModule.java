@@ -6,6 +6,7 @@ import rpg.core.module.RpgModule;
 import org.bukkit.configuration.file.YamlConfiguration;
 import rpg.database.DatabaseModule;
 import rpg.economy.EconomyModule;
+import rpg.gui.command.SkillCommand;
 import rpg.gui.command.StatusCommand;
 import rpg.gui.config.GuiConfig;
 import rpg.gui.framework.GuiListener;
@@ -82,6 +83,7 @@ public final class GuiModule implements RpgModule {
         plugin.getServer().getPluginManager().registerEvents(new GuiListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new WarehouseSaveListener(warehouseRepository), plugin);
         plugin.getCommand("rpgstatus").setExecutor(new StatusCommand(guiManager, statusGuiScreen));
+        plugin.getCommand("rpgskill").setExecutor(new SkillCommand(guiManager, skillGuiScreen));
     }
 
     @Override

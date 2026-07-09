@@ -8,6 +8,7 @@ import rpg.job.model.JobType;
 import rpg.job.model.PlayerJobComponent;
 import rpg.status.service.StatusService;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,6 +47,13 @@ public final class JobService {
         component(uuid).ifPresent(component -> component.setCurrentJob(newJob));
         statusService.setEquipmentContribution(uuid, STATUS_SOURCE_KEY, definition.get().getPassiveBonus());
         return true;
+    }
+
+    /**
+     * Every configured job definition, keyed by type - used by {@code /rpgjob list}.
+     */
+    public Map<JobType, Job> getDefinitions() {
+        return jobManager.getDefinitions();
     }
 
     public boolean canUseWeaponType(UUID uuid, WeaponType weaponType) {

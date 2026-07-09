@@ -5,12 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import rpg.job.model.Job;
 import rpg.job.model.JobType;
 import rpg.job.service.JobService;
 
 /**
  * {@code /rpgjob info} - prints the sender's current job and which weapon types it may
- * equip. Job changes only happen through the job-change NPC, not this command.
+ * equip. {@code /rpgjob list} - prints every configured job and its allowed weapons.
+ * Job changes only happen through the job-change NPC, not this command.
  */
 public final class JobCommand implements CommandExecutor {
 
@@ -22,6 +24,11 @@ public final class JobCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length >= 1 && args[0].equalsIgnoreCase("list")) {
+            sendJobList(sender);
+            return true;
+        }
+
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Players only.");
             return true;
@@ -33,5 +40,13 @@ public final class JobCommand implements CommandExecutor {
         }
         sender.sendMessage(ChatColor.GREEN + "Job: " + ChatColor.WHITE + job.name());
         return true;
+    }
+
+    private void sendJobList(CommandSender sender) {
+        sender.sendMessage(ChatColor.GREEN + "Available jobs:");
+        for (Job job : jobService.getDefinitions().values()) {
+            sender.sendMessage(ChatColor.GRAY + "- " + job.getType().name() + " " + ChatColor.WHITE + job.getDisplayName()
+                    + ChatColor.GRAY + " (" + job.getAllowedWeapons() + ")");
+        }
     }
 }

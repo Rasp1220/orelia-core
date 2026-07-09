@@ -20,6 +20,10 @@ commands:
     description: Open the status GUI
     usage: /rpgstatus
     permission: orelia.status
+  rpgskill:
+    description: Open the weapon-skill GUI
+    usage: /rpgskill
+    permission: orelia.skill
   rpgadmin:
     description: Administrative commands for Orelia Core
     usage: /rpgadmin <reload|...> ...
@@ -31,6 +35,8 @@ permissions:
   orelia.job:
     default: true
   orelia.status:
+    default: true
+  orelia.skill:
     default: true
   orelia.admin:
     default: op
