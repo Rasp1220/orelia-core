@@ -77,7 +77,8 @@ public final class SkillModule implements RpgModule {
         this.castService = new SkillCastService(plugin.getPlayerDataManager(), skillRepository, executorRegistry,
                 socketService, itemModule.getItemManager().getIdentityService(), statusModule.getStatusService());
 
-        plugin.getServer().getPluginManager().registerEvents(new SkillActivationListener(castService, socketService), plugin);
+        plugin.getServer().getPluginManager().registerEvents(
+                new SkillActivationListener(castService, socketService, itemModule.getItemManager().getIdentityService()), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ArrowSkillDamageListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ExplosiveArrowHitListener(), plugin);
     }
