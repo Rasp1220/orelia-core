@@ -1,5 +1,6 @@
 package rpg.api;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,4 +12,7 @@ public interface SkillApi {
     void grantSkillPoints(UUID playerId, int amount);
 
     int getSkillLevel(UUID playerId, String skillId);
+
+    /** Every skill the player has learned (level &gt; 0), across all weapon types. */
+    List<SkillSummary> getLearnedSkills(UUID playerId);
 }
