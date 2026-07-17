@@ -1,11 +1,11 @@
 package rpg.job.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import rpg.core.message.MessageManager;
 import rpg.job.model.JobType;
 import rpg.job.service.JobService;
 
@@ -20,29 +20,31 @@ import java.util.List;
 public final class JobCommand implements CommandExecutor, TabCompleter {
 
     private final JobService jobService;
+    private final MessageManager messages;
 
-    public JobCommand(JobService jobService) {
+    public JobCommand(JobService jobService, MessageManager messages) {
         this.jobService = jobService;
+        this.messages = messages;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Players only.");
+            messages.send(sender, "command.player-only");
             return true;
         }
         if (args.length > 0 && args[0].equalsIgnoreCase("list")) {
-            sender.sendMessage(ChatColor.GREEN + "Jobs: " + ChatColor.WHITE
-                    + String.join(", ", java.util.Arrays.stream(JobType.values()).map(JobType::name).toList()));
+            String jobs = String.join(", ", java.util.Arrays.stream(JobType.values()).map(JobType::name).toList());
+            messages.send(sender, "job.list", "jobs", jobs);
             return true;
         }
 
         JobType job = jobService.getCurrentJob(player.getUniqueId()).orElse(null);
         if (job == null) {
-            sender.sendMessage(ChatColor.YELLOW + "You have not chosen a job yet. Visit a job-change NPC.");
+            messages.send(sender, "job.not-chosen");
             return true;
         }
-        sender.sendMessage(ChatColor.GREEN + "Job: " + ChatColor.WHITE + job.name());
+        messages.send(sender, "job.current", "job", job.name());
         return true;
     }
 

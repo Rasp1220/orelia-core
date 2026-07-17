@@ -1,12 +1,12 @@
 package rpg.gui.screen;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import rpg.accessory.repository.AccessoryRepository;
 import rpg.accessory.service.AccessoryFactory;
 import rpg.api.ShopEntry;
+import rpg.core.message.MessageManager;
 import rpg.economy.service.EconomyService;
 import rpg.gui.config.GuiConfig;
 import rpg.gui.framework.Gui;
@@ -27,14 +27,17 @@ public final class ShopGuiScreen {
     private final AccessoryFactory accessoryFactory;
     private final EconomyService economyService;
     private final GuiConfig guiConfig;
+    private final MessageManager messages;
 
     public ShopGuiScreen(ItemManager itemManager, AccessoryRepository accessoryRepository,
-                          AccessoryFactory accessoryFactory, EconomyService economyService, GuiConfig guiConfig) {
+                          AccessoryFactory accessoryFactory, EconomyService economyService, GuiConfig guiConfig,
+                          MessageManager messages) {
         this.itemManager = itemManager;
         this.accessoryRepository = accessoryRepository;
         this.accessoryFactory = accessoryFactory;
         this.economyService = economyService;
         this.guiConfig = guiConfig;
+        this.messages = messages;
     }
 
     public Gui build(Player player, List<ShopEntry> stock) {
@@ -57,19 +60,19 @@ public final class ShopGuiScreen {
 
     private void buy(Player player, ShopEntry entry) {
         if (!economyService.withdraw(player.getUniqueId(), entry.price())) {
-            player.sendMessage(ChatColor.RED + "所持金が足りません。");
+            messages.send(player, "economy.insufficient-funds");
             return;
         }
         java.util.Optional<ItemStack> stack = resolve(entry);
         if (stack.isEmpty()) {
             economyService.deposit(player.getUniqueId(), entry.price());
-            player.sendMessage(ChatColor.RED + "商品を取得できませんでした。");
+            messages.send(player, "economy.item-unavailable");
             return;
         }
         ItemStack purchased = stack.get();
         player.getInventory().addItem(purchased).values()
                 .forEach(leftover -> player.getWorld().dropItemNaturally(player.getLocation(), leftover));
-        player.sendMessage(ChatColor.GREEN + "購入しました。");
+        messages.send(player, "economy.purchase-success");
     }
 
     private java.util.Optional<ItemStack> resolve(ShopEntry entry) {

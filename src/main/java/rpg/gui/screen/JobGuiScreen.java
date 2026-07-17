@@ -1,8 +1,8 @@
 package rpg.gui.screen;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import rpg.core.message.MessageManager;
 import rpg.gui.config.GuiConfig;
 import rpg.gui.framework.Gui;
 import rpg.gui.framework.GuiButton;
@@ -18,10 +18,12 @@ public final class JobGuiScreen {
 
     private final JobService jobService;
     private final GuiConfig guiConfig;
+    private final MessageManager messages;
 
-    public JobGuiScreen(JobService jobService, GuiConfig guiConfig) {
+    public JobGuiScreen(JobService jobService, GuiConfig guiConfig, MessageManager messages) {
         this.jobService = jobService;
         this.guiConfig = guiConfig;
+        this.messages = messages;
     }
 
     public Gui build(Player player) {
@@ -39,9 +41,11 @@ public final class JobGuiScreen {
                     return;
                 }
                 boolean changed = jobService.changeJob(clicker.getUniqueId(), type);
-                clicker.sendMessage(changed ? ChatColor.GREEN + type.name() + "に転職しました。" : ChatColor.RED + "転職に失敗しました。");
                 if (changed) {
+                    messages.send(clicker, "job.changed", "job", type.name());
                     clicker.closeInventory();
+                } else {
+                    messages.send(clicker, "job.change-failed");
                 }
             }));
         }
