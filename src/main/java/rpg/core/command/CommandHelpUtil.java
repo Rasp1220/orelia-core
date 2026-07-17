@@ -1,7 +1,7 @@
 package rpg.core.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import rpg.util.ColorUtil;
 
 import java.util.List;
 
@@ -14,8 +14,7 @@ import java.util.List;
 public final class CommandHelpUtil {
 
     private static final int PAGE_SIZE = 8;
-    private static final ChatColor DIVIDER_COLOR = ChatColor.DARK_GRAY;
-    private static final String DIVIDER = ChatColor.STRIKETHROUGH + "----------------------------------------";
+    private static final String DIVIDER = "&8&m----------------------------------------";
 
     private CommandHelpUtil() {
     }
@@ -29,26 +28,26 @@ public final class CommandHelpUtil {
         int totalPages = Math.max(1, (entries.size() + PAGE_SIZE - 1) / PAGE_SIZE);
         int clampedPage = Math.min(Math.max(page, 1), totalPages);
 
-        sender.sendMessage(DIVIDER_COLOR + "" + DIVIDER);
-        sender.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "/" + rootLabel + " ヘルプ"
-                + ChatColor.GRAY + " (" + clampedPage + "/" + totalPages + "ページ)");
-        sender.sendMessage(DIVIDER_COLOR + "" + DIVIDER);
+        sender.sendMessage(ColorUtil.component(DIVIDER));
+        sender.sendMessage(ColorUtil.component("&6&l/" + rootLabel + " ヘルプ"
+                + "&7 (" + clampedPage + "/" + totalPages + "ページ)"));
+        sender.sendMessage(ColorUtil.component(DIVIDER));
 
         if (entries.isEmpty()) {
-            sender.sendMessage(ChatColor.GRAY + "登録されているサブコマンドはありません。");
+            sender.sendMessage(ColorUtil.component("&7登録されているサブコマンドはありません。"));
         } else {
             int fromIndex = (clampedPage - 1) * PAGE_SIZE;
             int toIndex = Math.min(fromIndex + PAGE_SIZE, entries.size());
             for (OlCommandRegistry.Entry entry : entries.subList(fromIndex, toIndex)) {
                 String usage = entry.usage() == null || entry.usage().isBlank() ? entry.name() : entry.usage();
-                sender.sendMessage(ChatColor.YELLOW + "/" + rootLabel + " " + usage
-                        + ChatColor.GRAY + " - " + entry.description());
+                sender.sendMessage(ColorUtil.component("&e/" + rootLabel + " " + usage
+                        + "&7 - " + entry.description()));
             }
         }
 
-        sender.sendMessage(DIVIDER_COLOR + "" + DIVIDER);
+        sender.sendMessage(ColorUtil.component(DIVIDER));
         if (clampedPage < totalPages) {
-            sender.sendMessage(ChatColor.GRAY + "次のページ: " + ChatColor.WHITE + "/" + rootLabel + " help " + (clampedPage + 1));
+            sender.sendMessage(ColorUtil.component("&7次のページ: &f/" + rootLabel + " help " + (clampedPage + 1)));
         }
     }
 }

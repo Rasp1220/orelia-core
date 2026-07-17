@@ -6,8 +6,7 @@ package rpg.job.model;
  * which are fully config-driven.
  */
 public enum JobType {
-    SWORDSMAN,
-    SPEARMAN,
+    FENCER,
     WARRIOR,
     ARCHER
 }

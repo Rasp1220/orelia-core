@@ -1,5 +1,6 @@
 package rpg.core.message;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import rpg.core.config.ConfigFile;
 import rpg.util.ColorUtil;
@@ -46,14 +47,14 @@ public final class MessageManager {
         return ColorUtil.colorize(template);
     }
 
-    /** Sends {@link #getPrefix()} + {@link #format(String, Object...)} to {@code sender}. */
+    /** Sends {@link #getPrefix()} + {@link #format(String, Object...)} to {@code sender} as an Adventure {@link Component}. */
     public void send(CommandSender sender, String key, Object... placeholders) {
-        sender.sendMessage(getPrefix() + format(key, placeholders));
+        sender.sendMessage(ColorUtil.component(getPrefix() + format(key, placeholders)));
     }
 
     /** Like {@link #send} but without the {@code prefix} (for multi-line lists, GUI titles, ...). */
     public void sendRaw(CommandSender sender, String key, Object... placeholders) {
-        sender.sendMessage(format(key, placeholders));
+        sender.sendMessage(ColorUtil.component(format(key, placeholders)));
     }
 
     private String getString(String dottedKey) {

@@ -1,10 +1,10 @@
 package rpg.core.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import rpg.util.ColorUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public final class OlRootCommand implements CommandExecutor, TabCompleter {
         }
         CommandExecutor executor = registry.get(args[0]).orElse(null);
         if (executor == null) {
-            sender.sendMessage(ChatColor.RED + "Unknown subcommand: " + args[0] + ". Try /" + label + " help.");
+            sender.sendMessage(ColorUtil.component("&cUnknown subcommand: " + args[0] + ". Try /" + label + " help."));
             return true;
         }
         return executor.onCommand(sender, command, label + " " + args[0], Arrays.copyOfRange(args, 1, args.length));

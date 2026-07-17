@@ -1,8 +1,8 @@
 package rpg.util;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -26,12 +26,17 @@ public final class ItemBuilder {
     }
 
     public ItemBuilder name(String displayName) {
-        meta.setDisplayName(ColorUtil.colorize(displayName));
+        meta.displayName(ColorUtil.component(displayName));
+        return this;
+    }
+
+    public ItemBuilder name(Component displayName) {
+        meta.displayName(displayName);
         return this;
     }
 
     public ItemBuilder lore(List<String> lines) {
-        meta.setLore(ColorUtil.colorize(lines));
+        meta.lore(lines.stream().map(ColorUtil::component).toList());
         return this;
     }
 
@@ -43,16 +48,6 @@ public final class ItemBuilder {
         if (customModelData > 0) {
             meta.setCustomModelData(customModelData);
         }
-        return this;
-    }
-
-    public ItemBuilder amount(int amount) {
-        stack.setAmount(amount);
-        return this;
-    }
-
-    public ItemBuilder flags(ItemFlag... flags) {
-        meta.addItemFlags(flags);
         return this;
     }
 

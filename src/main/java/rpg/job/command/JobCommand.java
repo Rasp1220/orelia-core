@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import rpg.core.message.MessageManager;
+import rpg.job.manager.JobManager;
 import rpg.job.model.JobType;
 import rpg.job.service.JobService;
 
@@ -20,10 +21,12 @@ import java.util.List;
 public final class JobCommand implements CommandExecutor, TabCompleter {
 
     private final JobService jobService;
+    private final JobManager jobManager;
     private final MessageManager messages;
 
-    public JobCommand(JobService jobService, MessageManager messages) {
+    public JobCommand(JobService jobService, JobManager jobManager, MessageManager messages) {
         this.jobService = jobService;
+        this.jobManager = jobManager;
         this.messages = messages;
     }
 
@@ -34,7 +37,7 @@ public final class JobCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length > 0 && args[0].equalsIgnoreCase("list")) {
-            String jobs = String.join(", ", java.util.Arrays.stream(JobType.values()).map(JobType::name).toList());
+            String jobs = String.join(", ", java.util.Arrays.stream(JobType.values()).map(this::displayName).toList());
             messages.send(sender, "job.list", "jobs", jobs);
             return true;
         }
@@ -44,7 +47,7 @@ public final class JobCommand implements CommandExecutor, TabCompleter {
             messages.send(sender, "job.not-chosen");
             return true;
         }
-        messages.send(sender, "job.current", "job", job.name());
+        messages.send(sender, "job.current", "job", displayName(job));
         return true;
     }
 
@@ -59,5 +62,9 @@ public final class JobCommand implements CommandExecutor, TabCompleter {
             return result;
         }
         return List.of();
+    }
+
+    private String displayName(JobType type) {
+        return jobManager.getDefinition(type).map(job -> job.getDisplayName()).orElse(type.name());
     }
 }

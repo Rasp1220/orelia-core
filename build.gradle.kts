@@ -32,6 +32,7 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
@@ -48,6 +49,7 @@ tasks {
     compileJava {
         options.encoding = "UTF-8"
         options.release.set(21)
+        options.compilerArgs.add("-Xlint:deprecation")
     }
     test {
         useJUnitPlatform()

@@ -1,5 +1,6 @@
 package rpg.gui.screen;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -49,8 +50,11 @@ public final class ShopGuiScreen {
                 continue;
             }
             ItemStack icon = preview.clone();
+            Component name = icon.hasItemMeta() && icon.getItemMeta().hasDisplayName()
+                    ? icon.getItemMeta().displayName()
+                    : Component.text(entry.id());
             icon = new ItemBuilder(icon.getType())
-                    .name(icon.hasItemMeta() && icon.getItemMeta().hasDisplayName() ? icon.getItemMeta().getDisplayName() : entry.id())
+                    .name(name)
                     .lore("&7価格: " + entry.price())
                     .build();
             gui.set(slot++, new GuiButton(icon, (clicker, clickType) -> buy(clicker, entry)));

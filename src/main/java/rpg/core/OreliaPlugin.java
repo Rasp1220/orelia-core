@@ -15,6 +15,7 @@ import rpg.core.scheduler.SchedulerService;
 import rpg.database.DatabaseModule;
 import rpg.status.StatusModule;
 import rpg.job.JobModule;
+import rpg.gathering.GatheringModule;
 import rpg.item.ItemModule;
 import rpg.skill.SkillModule;
 import rpg.accessory.AccessoryModule;
@@ -37,8 +38,6 @@ import rpg.api.ApiModule;
  */
 public final class OreliaPlugin extends JavaPlugin {
 
-    private static OreliaPlugin instance;
-
     private ConfigManager configManager;
     private MessageManager messageManager;
     private SchedulerService schedulerService;
@@ -49,8 +48,6 @@ public final class OreliaPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
-
         this.configManager = new ConfigManager(this);
         this.configManager.register("config.yml");
         this.messageManager = new MessageManager(configManager.register("messages.yml"));
@@ -82,6 +79,7 @@ public final class OreliaPlugin extends JavaPlugin {
         moduleManager.register(new DatabaseModule());
         moduleManager.register(new StatusModule());
         moduleManager.register(new JobModule());
+        moduleManager.register(new GatheringModule());
         moduleManager.register(new ItemModule());
         moduleManager.register(new SkillModule());
         moduleManager.register(new AccessoryModule());
@@ -103,16 +101,11 @@ public final class OreliaPlugin extends JavaPlugin {
         if (moduleManager != null) {
             moduleManager.disableAll();
         }
-        instance = null;
     }
 
     public void reload() {
         configManager.reloadAll();
         moduleManager.reloadAll();
-    }
-
-    public static OreliaPlugin getInstance() {
-        return instance;
     }
 
     public ConfigManager getConfigManager() {
