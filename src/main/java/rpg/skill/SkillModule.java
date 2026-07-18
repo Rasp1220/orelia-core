@@ -66,7 +66,7 @@ public final class SkillModule implements RpgModule {
         this.socketService = new SkillSocketService(plugin);
         this.progressService = new SkillProgressService(plugin.getPlayerDataManager(), skillRepository);
 
-        SkillDamage skillDamage = new SkillDamage(plugin, itemModule.getItemManager().getIdentityService());
+        SkillDamage skillDamage = new SkillDamage(plugin, itemModule.getItemManager().getIdentityService(), statusModule.getStatusService());
         SkillExecutorRegistry executorRegistry = new SkillExecutorRegistry();
         executorRegistry.register("MELEE_CONE", new MeleeConeExecutor(skillDamage));
         executorRegistry.register("MELEE_AOE", new MeleeAoeExecutor(skillDamage));

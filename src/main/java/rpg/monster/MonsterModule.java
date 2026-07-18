@@ -6,10 +6,13 @@ import rpg.core.module.RpgModule;
 import rpg.database.DatabaseModule;
 import rpg.economy.EconomyModule;
 import rpg.item.ItemModule;
+import rpg.monster.listener.DamageDisplayListener;
 import rpg.monster.listener.MonsterCombatListener;
 import rpg.monster.listener.MonsterDeathListener;
+import rpg.monster.listener.MonsterHealthBarListener;
 import rpg.monster.listener.VanillaHostileSpawnBlockerListener;
 import rpg.monster.repository.MonsterRepository;
+import rpg.monster.service.DamageDisplayService;
 import rpg.monster.service.MonsterDropService;
 import rpg.monster.service.MonsterKeys;
 import rpg.monster.service.MonsterSpawnService;
@@ -53,7 +56,7 @@ public final class MonsterModule implements RpgModule {
         reloadMonsters();
 
         MonsterKeys keys = new MonsterKeys(plugin);
-        this.spawnService = new MonsterSpawnService(keys, repository);
+        this.spawnService = new MonsterSpawnService(plugin, keys, repository);
         MonsterDropService dropService = new MonsterDropService(
                 itemModule.getItemManager(), economyModule.getEconomyService(), statusModule.getStatusService());
 
@@ -67,8 +70,11 @@ public final class MonsterModule implements RpgModule {
         spawnPointService.loadAll();
 
         plugin.getServer().getPluginManager().registerEvents(
-                new MonsterCombatListener(spawnService, itemModule.getItemManager().getIdentityService()), plugin);
+                new MonsterCombatListener(plugin, spawnService, itemModule.getItemManager().getIdentityService()), plugin);
         plugin.getServer().getPluginManager().registerEvents(new MonsterDeathListener(spawnService, dropService, spawnPointService), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new MonsterHealthBarListener(spawnService), plugin);
+        DamageDisplayService damageDisplayService = new DamageDisplayService(plugin);
+        plugin.getServer().getPluginManager().registerEvents(new DamageDisplayListener(plugin, damageDisplayService), plugin);
 
         boolean disableVanillaSpawning = plugin.getConfigManager().get("config.yml").get()
                 .getBoolean("monster.disable-vanilla-hostile-spawning", true);

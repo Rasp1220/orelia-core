@@ -70,7 +70,9 @@ public final class MonsterRepository {
                 section.getLong("exp-reward", 10),
                 section.getDouble("money-min", 0),
                 section.getDouble("money-max", 0),
-                section.getStringList("skills"));
+                section.getStringList("skills"),
+                section.getDouble("crit-rate", 0.0),
+                section.getDouble("crit-multiplier", 1.5));
     }
 
     public Optional<MonsterData> findById(String id) {

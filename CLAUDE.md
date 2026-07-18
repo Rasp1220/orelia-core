@@ -70,6 +70,19 @@ There are exactly two top-level Bukkit commands, both dispatchers: `/ol` (player
 
 `ApiModule` is always the last module enabled. It wraps each module's service in a narrow `*Api`/`*ApiImpl` pair (`OreliaApi`, `StatusApi`, `JobApi`, `ItemApi`, `AccessoryApi`, `SkillApi`, `GuiApi`, `EffectApi`, `CombatApi`) and publishes them — plus the generic `PlayerDataManager` and `DatabaseManager` — through Bukkit's `ServicesManager`. This is the **only** integration surface for other plugins; when adding a new cross-plugin capability, add/extend an `*Api` interface here rather than exposing an internal manager class.
 
+### Combat damage math (`rpg.status.combat.DamageFormula`)
+
+Every damage-affecting listener (`WeaponUseListener`, `SkillDamage`, `MonsterCombatListener`,
+`CombatStatusListener`) computes damage through `DamageFormula` — `mitigate` (defense
+reduction), `applyAttackBonus` (ATK% scaling), `criticalMultiplier`/`rollCrit` (crit roll and
+its multiplier, folding a `CRT_DMG` stat bonus onto a weapon's/monster's own base crit
+multiplier). It's pure (no Bukkit dependency) and unit-tested — when changing how damage is
+calculated anywhere, add/extend a method here rather than duplicating the math inline in a
+listener. `DamageFormula.CRIT_METADATA_KEY` is the Bukkit metadata key a crit-rolling listener
+sets on the *attacker* (clearing it on a non-crit hit so a stale flag never leaks into the
+next attack) — `rpg.monster.listener.DamageDisplayListener` reads it to color/scale the
+floating damage number.
+
 ### Cross-module dependency conventions
 
 - `ItemModule` depends on `JobModule` + `StatusModule` (weapon requirement checks).

@@ -4,14 +4,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import rpg.status.combat.DamageFormula;
 import rpg.status.model.StatSheet;
 import rpg.status.model.StatType;
 import rpg.status.service.StatusService;
 
 /**
- * Folds ATK (attacker) and DEF (victim) into vanilla melee/projectile damage. Weapon
- * skill damage multipliers are applied separately by the skill module before this
- * listener runs, since skills fire a fresh damage event of their own.
+ * Folds ATK (attacker) and DEF (victim) into vanilla melee/projectile damage via
+ * {@link DamageFormula}. Weapon/skill damage (including their own crit rolls) is applied
+ * separately before this listener runs, since skills fire a fresh damage event of their own.
  */
 public final class CombatStatusListener implements Listener {
 
@@ -28,15 +29,14 @@ public final class CombatStatusListener implements Listener {
         if (event.getDamager() instanceof Player attacker) {
             StatSheet stats = statusService.getFinalStats(attacker.getUniqueId()).orElse(null);
             if (stats != null) {
-                damage *= 1 + stats.get(StatType.ATK) / 100.0;
+                damage = DamageFormula.applyAttackBonus(damage, stats.get(StatType.ATK));
             }
         }
 
         if (event.getEntity() instanceof Player victim) {
             StatSheet stats = statusService.getFinalStats(victim.getUniqueId()).orElse(null);
             if (stats != null) {
-                double reduction = stats.get(StatType.DEF) / (stats.get(StatType.DEF) + 100.0);
-                damage *= (1 - reduction);
+                damage = DamageFormula.mitigate(damage, stats.get(StatType.DEF));
             }
         }
 
