@@ -17,6 +17,12 @@ public interface StatusApi {
     /** Final (post equipment/buff) stat values keyed by stat name (HP, SP, ATK, DEF, CRT, CRT_DMG, SPD). */
     Map<String, Double> getFinalStats(UUID playerId);
 
+    /** Current (live, not max) HP - see {@code getFinalStats}'s {@code "HP"} entry for the max value. */
+    Optional<Double> getCurrentHp(UUID playerId);
+
+    /** Current (live, not max) SP - see {@code getFinalStats}'s {@code "SP"} entry for the max value. */
+    Optional<Double> getCurrentSp(UUID playerId);
+
     void addExperience(UUID playerId, long amount);
 
     boolean tryConsumeSp(UUID playerId, double amount);

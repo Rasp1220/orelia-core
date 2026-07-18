@@ -32,6 +32,16 @@ final class StatusApiImpl implements StatusApi {
     }
 
     @Override
+    public Optional<Double> getCurrentHp(UUID playerId) {
+        return statusService.component(playerId).map(PlayerStatusComponent::getCurrentHp);
+    }
+
+    @Override
+    public Optional<Double> getCurrentSp(UUID playerId) {
+        return statusService.component(playerId).map(PlayerStatusComponent::getCurrentSp);
+    }
+
+    @Override
     public void addExperience(UUID playerId, long amount) {
         statusService.addExperience(playerId, amount);
     }
