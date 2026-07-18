@@ -57,6 +57,9 @@ combat:
     enabled: true
     duration-ticks: 20
     rise-per-tick: 0.05
+    # Spawn offset from the hit location (victim's eye height by default) - negative moves it
+    # down. Tune this if numbers feel like they're floating too high above the target.
+    y-offset: -0.3
     normal-color: "&f"
     crit-color: "&e"
     crit-scale: 1.3
@@ -66,6 +69,10 @@ monster:
   # from an Orelia monster spawn point (/oladmin spawnpoint) instead of random vanilla
   # spawns. Does not affect passive animals or Orelia's own spawns.
   disable-vanilla-hostile-spawning: true
+  # Prevents tagged monsters (zombies etc.) from burning in daylight, without affecting
+  # other ignition sources (lava, fire blocks, fire-elemental skills).
+  sun-immunity:
+    enabled: true
   # Renders every tagged monster's nametag as a live HP bar, updated after each hit
   # (MonsterHealthBarListener). {name}/{bar}/{current}/{max} placeholders in "format".
   health-bar:

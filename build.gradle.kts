@@ -33,6 +33,11 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // paper-api is compileOnly (provided by the server at runtime), but classes that touch it
+    // (e.g. ColorUtil returning an Adventure Component) still need it resolvable when JUnit
+    // loads/verifies the class under test - without this, tests fail with NoClassDefFoundError
+    // even for methods that don't call any Adventure/Bukkit API themselves.
+    testImplementation("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
 }
 
 tasks {

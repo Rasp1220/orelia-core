@@ -32,11 +32,13 @@ public final class DamageDisplayService {
         }
         long durationTicks = config.getLong("combat.damage-display.duration-ticks", 20);
         double risePerTick = config.getDouble("combat.damage-display.rise-per-tick", 0.05);
+        double yOffset = config.getDouble("combat.damage-display.y-offset", -0.3);
         String color = config.getString(isCrit ? "combat.damage-display.crit-color" : "combat.damage-display.normal-color",
                 isCrit ? "&e" : "&f");
         float scale = isCrit ? (float) config.getDouble("combat.damage-display.crit-scale", 1.3) : 1.0f;
 
-        TextDisplay display = origin.getWorld().spawn(origin, TextDisplay.class, d -> {
+        Location spawnLocation = origin.clone().add(0, yOffset, 0);
+        TextDisplay display = spawnLocation.getWorld().spawn(spawnLocation, TextDisplay.class, d -> {
             d.text(ColorUtil.component(color + Math.round(amount)));
             d.setBillboard(Display.Billboard.CENTER);
             d.setPersistent(false);

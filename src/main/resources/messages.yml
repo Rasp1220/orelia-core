@@ -8,6 +8,12 @@ command:
   player-only: "&cプレイヤーのみ実行できます。"
   unknown-subcommand: "&c不明なサブコマンドです: {name}。/{label} help を試してください。"
 
+monster:
+  # Overrides the vanilla "X was slain by <killer's live nametag>" message when a player is
+  # killed by a tagged Orelia monster, so the monster's HP-bar-decorated nametag doesn't leak
+  # into the death message. {monster} is always the clean monsters.yml name.
+  death-message: "&7{player} は {monster} に倒されました。"
+
 item:
   requirement-not-met: "&cこの武器を使用する条件を満たしていません。"
   unknown-weapon: "&c不明な武器IDです。"

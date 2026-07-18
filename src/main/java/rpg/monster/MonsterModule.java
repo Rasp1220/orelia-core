@@ -10,6 +10,7 @@ import rpg.monster.listener.DamageDisplayListener;
 import rpg.monster.listener.MonsterCombatListener;
 import rpg.monster.listener.MonsterDeathListener;
 import rpg.monster.listener.MonsterHealthBarListener;
+import rpg.monster.listener.MonsterSunImmunityListener;
 import rpg.monster.listener.VanillaHostileSpawnBlockerListener;
 import rpg.monster.repository.MonsterRepository;
 import rpg.monster.service.DamageDisplayService;
@@ -71,7 +72,8 @@ public final class MonsterModule implements RpgModule {
 
         plugin.getServer().getPluginManager().registerEvents(
                 new MonsterCombatListener(plugin, spawnService, itemModule.getItemManager().getIdentityService()), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new MonsterDeathListener(spawnService, dropService, spawnPointService), plugin);
+        plugin.getServer().getPluginManager().registerEvents(
+                new MonsterDeathListener(spawnService, dropService, spawnPointService, plugin.getMessageManager()), plugin);
         plugin.getServer().getPluginManager().registerEvents(new MonsterHealthBarListener(spawnService), plugin);
         DamageDisplayService damageDisplayService = new DamageDisplayService(plugin);
         plugin.getServer().getPluginManager().registerEvents(new DamageDisplayListener(plugin, damageDisplayService), plugin);
@@ -80,6 +82,12 @@ public final class MonsterModule implements RpgModule {
                 .getBoolean("monster.disable-vanilla-hostile-spawning", true);
         if (disableVanillaSpawning) {
             plugin.getServer().getPluginManager().registerEvents(new VanillaHostileSpawnBlockerListener(), plugin);
+        }
+
+        boolean sunImmunity = plugin.getConfigManager().get("config.yml").get()
+                .getBoolean("monster.sun-immunity.enabled", true);
+        if (sunImmunity) {
+            plugin.getServer().getPluginManager().registerEvents(new MonsterSunImmunityListener(spawnService), plugin);
         }
 
         plugin.getSchedulerService().runTimer(spawnPointService::tick, SPAWN_POINT_TICK_PERIOD_TICKS, SPAWN_POINT_TICK_PERIOD_TICKS);
