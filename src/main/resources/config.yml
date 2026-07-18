@@ -50,8 +50,27 @@ status:
 economy:
   starting-balance: 100.0
 
+# Floating damage-number text (rises for duration-ticks then despawns). Works for any hit,
+# not just monsters - PvP included.
+combat:
+  damage-display:
+    enabled: true
+    duration-ticks: 20
+    rise-per-tick: 0.05
+    normal-color: "&f"
+    crit-color: "&e"
+    crit-scale: 1.3
+
 monster:
   # Cancels vanilla natural/spawner hostile mob spawning so every enemy in the world comes
   # from an Orelia monster spawn point (/oladmin spawnpoint) instead of random vanilla
   # spawns. Does not affect passive animals or Orelia's own spawns.
   disable-vanilla-hostile-spawning: true
+  # Renders every tagged monster's nametag as a live HP bar, updated after each hit
+  # (MonsterHealthBarListener). {name}/{bar}/{current}/{max} placeholders in "format".
+  health-bar:
+    enabled: true
+    length: 10
+    format: "{name} &7[{bar}&7] &f{current}/{max}"
+    filled-color: "&a"
+    empty-color: "&8"

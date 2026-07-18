@@ -26,10 +26,12 @@ public final class MonsterData {
     private final double moneyMin;
     private final double moneyMax;
     private final List<String> skillIds;
+    private final double critRate;
+    private final double critMultiplier;
 
     public MonsterData(String id, String name, EntityType entityType, double hp, double attackPower, double defense,
                         ElementType element, ElementType weakness, AiType aiType, List<DropEntry> drops, long expReward,
-                        double moneyMin, double moneyMax, List<String> skillIds) {
+                        double moneyMin, double moneyMax, List<String> skillIds, double critRate, double critMultiplier) {
         this.id = id;
         this.name = name;
         this.entityType = entityType;
@@ -44,6 +46,8 @@ public final class MonsterData {
         this.moneyMin = moneyMin;
         this.moneyMax = moneyMax;
         this.skillIds = skillIds;
+        this.critRate = critRate;
+        this.critMultiplier = critMultiplier;
     }
 
     public String getId() {
@@ -101,5 +105,15 @@ public final class MonsterData {
 
     public List<String> getSkillIds() {
         return skillIds;
+    }
+
+    /** Percent chance (0-100) this monster's attacks land a critical hit. 0 = never crits (default). */
+    public double getCritRate() {
+        return critRate;
+    }
+
+    /** Multiplier applied on a critical hit (see {@link rpg.status.combat.DamageFormula#criticalMultiplier}). */
+    public double getCritMultiplier() {
+        return critMultiplier;
     }
 }

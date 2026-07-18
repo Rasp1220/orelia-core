@@ -7,27 +7,33 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 import rpg.item.model.ElementType;
 import rpg.item.model.WeaponData;
 import rpg.item.service.WeaponIdentityService;
 import rpg.monster.model.MonsterData;
 import rpg.monster.service.MonsterSpawnService;
+import rpg.status.combat.DamageFormula;
 
 /**
  * Applies monster-side attack power (when the monster is the damager) and defense (when
  * the monster is the victim) on top of vanilla damage, mirroring how
  * {@link rpg.status.listener.CombatStatusListener} treats player ATK/DEF. Also applies a
  * flat weakness multiplier when the attacker's equipped weapon element matches the
- * monster's configured weak point.
+ * monster's configured weak point, and rolls the monster's own crit chance via
+ * {@link DamageFormula} when it is the attacker.
  */
 public final class MonsterCombatListener implements Listener {
 
     private static final double WEAKNESS_MULTIPLIER = 1.5;
 
+    private final Plugin plugin;
     private final MonsterSpawnService spawnService;
     private final WeaponIdentityService weaponIdentityService;
 
-    public MonsterCombatListener(MonsterSpawnService spawnService, WeaponIdentityService weaponIdentityService) {
+    public MonsterCombatListener(Plugin plugin, MonsterSpawnService spawnService, WeaponIdentityService weaponIdentityService) {
+        this.plugin = plugin;
         this.spawnService = spawnService;
         this.weaponIdentityService = weaponIdentityService;
     }
@@ -37,15 +43,21 @@ public final class MonsterCombatListener implements Listener {
         if (event.getDamager() instanceof LivingEntity attacker) {
             MonsterData data = spawnService.dataOf(attacker).orElse(null);
             if (data != null) {
-                event.setDamage(data.getAttackPower());
+                double damage = data.getAttackPower();
+                if (DamageFormula.rollCrit(data.getCritRate())) {
+                    damage *= DamageFormula.criticalMultiplier(data.getCritMultiplier(), 0);
+                    attacker.setMetadata(DamageFormula.CRIT_METADATA_KEY, new FixedMetadataValue(plugin, true));
+                } else {
+                    attacker.removeMetadata(DamageFormula.CRIT_METADATA_KEY, plugin);
+                }
+                event.setDamage(damage);
             }
         }
 
         if (event.getEntity() instanceof LivingEntity victim && event.getDamager() instanceof Player attacker) {
             MonsterData data = spawnService.dataOf(victim).orElse(null);
             if (data != null) {
-                double reduction = data.getDefense() / (data.getDefense() + 100.0);
-                double damage = event.getDamage() * (1 - reduction);
+                double damage = DamageFormula.mitigate(event.getDamage(), data.getDefense());
                 if (isWeaknessHit(attacker, data)) {
                     damage *= WEAKNESS_MULTIPLIER;
                 }

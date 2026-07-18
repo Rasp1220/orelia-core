@@ -1,0 +1,60 @@
+package rpg.monster.service;
+
+import org.bukkit.Location;
+import org.bukkit.entity.TextDisplay;
+import org.bukkit.entity.Display;
+import org.bukkit.scheduler.BukkitTask;
+import org.joml.AxisAngle4f;
+import org.joml.Vector3f;
+import org.bukkit.util.Transformation;
+import rpg.core.OreliaPlugin;
+import rpg.util.ColorUtil;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * Spawns a floating {@link TextDisplay} showing a damage number at {@code origin}, rising
+ * for a configured number of ticks before removing itself. Purely cosmetic combat feedback -
+ * works for any {@link org.bukkit.entity.LivingEntity} taking damage, not just monsters.
+ */
+public final class DamageDisplayService {
+
+    private final OreliaPlugin plugin;
+
+    public DamageDisplayService(OreliaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void show(Location origin, double amount, boolean isCrit) {
+        var config = plugin.getConfigManager().get("config.yml").get();
+        if (!config.getBoolean("combat.damage-display.enabled", true)) {
+            return;
+        }
+        long durationTicks = config.getLong("combat.damage-display.duration-ticks", 20);
+        double risePerTick = config.getDouble("combat.damage-display.rise-per-tick", 0.05);
+        String color = config.getString(isCrit ? "combat.damage-display.crit-color" : "combat.damage-display.normal-color",
+                isCrit ? "&e" : "&f");
+        float scale = isCrit ? (float) config.getDouble("combat.damage-display.crit-scale", 1.3) : 1.0f;
+
+        TextDisplay display = origin.getWorld().spawn(origin, TextDisplay.class, d -> {
+            d.text(ColorUtil.component(color + Math.round(amount)));
+            d.setBillboard(Display.Billboard.CENTER);
+            d.setPersistent(false);
+            if (scale != 1.0f) {
+                d.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(), new Vector3f(scale), new AxisAngle4f()));
+            }
+        });
+
+        AtomicReference<BukkitTask> taskRef = new AtomicReference<>();
+        long[] ticksElapsed = {0};
+        taskRef.set(plugin.getSchedulerService().runTimer(() -> {
+            if (!display.isValid() || ticksElapsed[0] >= durationTicks) {
+                display.remove();
+                taskRef.get().cancel();
+                return;
+            }
+            display.teleport(display.getLocation().add(0, risePerTick, 0));
+            ticksElapsed[0]++;
+        }, 1L, 1L));
+    }
+}
