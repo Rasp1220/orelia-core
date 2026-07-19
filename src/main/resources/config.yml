@@ -86,7 +86,10 @@ combat:
   damage-display:
     enabled: true
     duration-ticks: 20
-    rise-per-tick: 0.05
+    # Downward acceleration per tick (real entity physics, not a fixed drift speed - see
+    # DamageDisplayService) - roughly half of vanilla's ~0.04 gravity by default, so the
+    # number visibly falls and speeds up rather than floating at a constant rate.
+    gravity-per-tick: 0.02
     # Spawn offset from the hit location (victim's eye height by default) - negative moves it
     # down. Tune this if numbers feel like they're floating too high above the target.
     y-offset: -0.3
