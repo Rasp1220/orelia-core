@@ -3,6 +3,7 @@ package rpg.item.service;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import rpg.item.config.WeaponLevelConfig;
 import rpg.item.model.WeaponData;
 import rpg.item.repository.WeaponRepository;
 
@@ -16,10 +17,12 @@ public final class WeaponIdentityService {
 
     private final WeaponKeys keys;
     private final WeaponRepository repository;
+    private final WeaponLevelConfig levelConfig;
 
-    public WeaponIdentityService(WeaponKeys keys, WeaponRepository repository) {
+    public WeaponIdentityService(WeaponKeys keys, WeaponRepository repository, WeaponLevelConfig levelConfig) {
         this.keys = keys;
         this.repository = repository;
+        this.levelConfig = levelConfig;
     }
 
     public Optional<String> idOf(ItemStack stack) {
@@ -56,5 +59,50 @@ public final class WeaponIdentityService {
     /** Attack-power scale factor from enhancement level: +10% per level. */
     public double enhancementMultiplier(ItemStack stack) {
         return 1.0 + getEnhancementLevel(stack) * 0.1;
+    }
+
+    /**
+     * This weapon instance's current level - starts at the weapon type's {@code items.yml}
+     * {@code level:} ({@link WeaponData#getWeaponLevel()}) the first time it's read, since
+     * {@link WeaponFactory} doesn't stamp it at creation. Distinct from
+     * {@link #getEnhancementLevel}.
+     */
+    public int getWeaponLevel(ItemStack stack, WeaponData data) {
+        if (stack == null || !stack.hasItemMeta()) {
+            return data.getWeaponLevel();
+        }
+        Integer level = stack.getItemMeta().getPersistentDataContainer().get(keys.weaponLevel(), PersistentDataType.INTEGER);
+        return level == null ? data.getWeaponLevel() : level;
+    }
+
+    /**
+     * Highest weapon level {@code playerLevel} is currently allowed to level this weapon up
+     * to - see {@link WeaponLevelConfig#weaponLevelCap}.
+     */
+    public int weaponLevelCap(int playerLevel) {
+        return levelConfig.weaponLevelCap(playerLevel);
+    }
+
+    /**
+     * Attempts to raise this weapon instance's level by one. Returns the new level, or
+     * {@code -1} if {@code playerLevel} isn't high enough to unlock the next level (see
+     * {@link #weaponLevelCap}).
+     */
+    public int levelUp(ItemStack stack, WeaponData data, int playerLevel) {
+        int current = getWeaponLevel(stack, data);
+        int next = current + 1;
+        if (next > weaponLevelCap(playerLevel)) {
+            return -1;
+        }
+        ItemMeta meta = stack.getItemMeta();
+        meta.getPersistentDataContainer().set(keys.weaponLevel(), PersistentDataType.INTEGER, next);
+        stack.setItemMeta(meta);
+        return next;
+    }
+
+    /** {@code attack-power * (1 + weaponLevel * weaponLevelFactor) * enhancementMultiplier} - the weapon's full base attack power. */
+    public double baseAttackPower(ItemStack stack, WeaponData data) {
+        double weaponLevelBonus = 1.0 + getWeaponLevel(stack, data) * levelConfig.getAttackPowerFactor();
+        return data.getAttackPower() * weaponLevelBonus * enhancementMultiplier(stack);
     }
 }

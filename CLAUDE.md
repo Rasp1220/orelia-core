@@ -96,6 +96,24 @@ the *attacker* after a crit (clearing it on a non-crit hit so a stale flag never
 the next attack) — `rpg.monster.listener.DamageDisplayListener` reads it to color/scale the
 floating damage number.
 
+### Weapon level vs. enhancement (`rpg.item.service.WeaponIdentityService`)
+
+Two independent, PDC-backed per-instance counters live on a weapon `ItemStack`, both distinct
+from the plain `WeaponData` template:
+
+- **Enhancement level** (`enhancementLevel`/`enhance()`, unlimited) - the "強化屋" NPC's
+  upgrade, +10% base attack power per level.
+- **Weapon level** (`weaponLevel`/`levelUp()`) - starts at the weapon type's `items.yml`
+  `level:` (`WeaponData.getWeaponLevel()`) and can be raised further via `ItemApi#levelUpWeapon`
+  (`/ol item levelup` for now - no NPC/GUI trigger exists yet, that's an orelia-world follow-up),
+  gated by the wielder's own character level via `WeaponLevelConfig#weaponLevelCap`
+  (`config.yml: weapon-level.*`). Adds `attack-power-factor` (default 5%) per weapon level.
+
+`WeaponIdentityService#baseAttackPower(stack, data)` is the one place both factors compose:
+`attack-power * (1 + weaponLevel * weaponLevelFactor) * enhancementMultiplier`. Both
+`CombatDamageListener` and `SkillDamage` call this rather than reading `WeaponData.attackPower`
+directly.
+
 ### Cross-module dependency conventions
 
 - `ItemModule` depends on `JobModule` + `StatusModule` (weapon requirement checks).
