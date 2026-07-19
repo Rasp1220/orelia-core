@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import rpg.core.OreliaPlugin;
 import rpg.core.module.RpgModule;
 import rpg.item.command.ItemCommand;
+import rpg.item.config.WeaponLevelConfig;
 import rpg.item.manager.ItemManager;
 import rpg.item.repository.WeaponRepository;
 import rpg.item.service.WeaponFactory;
@@ -20,6 +21,7 @@ import rpg.status.StatusModule;
 public final class ItemModule implements RpgModule {
 
     private final WeaponRepository repository = new WeaponRepository();
+    private final WeaponLevelConfig levelConfig = new WeaponLevelConfig();
     private ItemManager itemManager;
     private OreliaPlugin plugin;
 
@@ -37,10 +39,11 @@ public final class ItemModule implements RpgModule {
                 .orElseThrow(() -> new IllegalStateException("item module requires status module"));
 
         reloadWeapons();
+        loadLevelConfig();
 
         WeaponKeys keys = new WeaponKeys(plugin);
         WeaponFactory factory = new WeaponFactory(keys);
-        WeaponIdentityService identityService = new WeaponIdentityService(keys, repository);
+        WeaponIdentityService identityService = new WeaponIdentityService(keys, repository, levelConfig);
         WeaponRequirementService requirementService = new WeaponRequirementService(jobModule.getJobService(), statusModule.getStatusService());
         this.itemManager = new ItemManager(repository, factory, identityService, requirementService);
 
@@ -48,8 +51,9 @@ public final class ItemModule implements RpgModule {
         // rpg.monster.listener.CombatDamageListener, registered by MonsterModule (which is
         // the only module positioned after both this one and StatusModule in the enable
         // order, so it can pull in WeaponIdentityService/WeaponRequirementService/StatusService).
-        plugin.getPlayerCommandRegistry().register("item", new ItemCommand(itemManager, plugin.getMessageManager()),
-                "武器の付与など、アイテム関連の操作を行います。", "item give <player> <id> [amount]");
+        plugin.getPlayerCommandRegistry().register("item",
+                new ItemCommand(itemManager, statusModule.getStatusService(), plugin.getMessageManager()),
+                "武器の付与・武器レベルアップなど、アイテム関連の操作を行います。", "item give <player> <id> [amount] | item levelup");
     }
 
     @Override
@@ -59,12 +63,17 @@ public final class ItemModule implements RpgModule {
     @Override
     public void onReload() {
         reloadWeapons();
+        loadLevelConfig();
     }
 
     private void reloadWeapons() {
         plugin.getConfigManager().register("items.yml");
         YamlConfiguration config = plugin.getConfigManager().get("items.yml").get();
         repository.load(config);
+    }
+
+    private void loadLevelConfig() {
+        levelConfig.load(plugin.getConfigManager().get("config.yml").get());
     }
 
     public ItemManager getItemManager() {

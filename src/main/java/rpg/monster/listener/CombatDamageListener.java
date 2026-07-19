@@ -100,7 +100,7 @@ public final class CombatDamageListener implements Listener {
                     messages.send(attacker, "item.requirement-not-met");
                     return null;
                 }
-                double baseAttackPower = data.getAttackPower() * identityService.enhancementMultiplier(weapon);
+                double baseAttackPower = identityService.baseAttackPower(weapon, data);
                 return new AttackInput(baseAttackPower, atkPercent, weaponCritRate, critMultiplier, critDmg);
             }
 

@@ -29,6 +29,9 @@ public final class WeaponFactory {
 
         List<String> lore = new ArrayList<>();
         lore.add(data.getRarity().getColor() + data.getRarity().name());
+        // The weapon's actual level/enhancement can grow later via WeaponIdentityService, but
+        // this lore is only rendered once at creation - it deliberately just shows the
+        // starting values, same limitation the attack-power line below already has.
         lore.add("&7Lv. " + data.getWeaponLevel());
         lore.addAll(data.getDescription());
         lore.add("&c攻撃力 &f" + data.getAttackPower());

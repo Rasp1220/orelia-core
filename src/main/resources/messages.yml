@@ -20,6 +20,9 @@ item:
   usage-give: "&e使い方: /{label} give <player> <id> [amount]"
   player-not-found: "&c対象のプレイヤーが見つかりません: {player}"
   given: "&a{amount}個の{weapon}を{player}に渡しました。"
+  not-holding-weapon: "&c武器を持っていません。"
+  weapon-leveled-up: "&a武器のレベルが{level}になりました！"
+  weapon-level-capped: "&cこれ以上武器のレベルを上げるには、プレイヤーレベルが足りません。"
 
 job:
   not-chosen: "&e職業がまだ選択されていません。ギルドで職業を選びましょう。"

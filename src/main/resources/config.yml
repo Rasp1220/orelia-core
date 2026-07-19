@@ -5,7 +5,7 @@
 # added - on next startup, ConfigManager appends the new section (with its comments) to any
 # existing config.yml that's missing it, without touching anything you've already customized.
 # Never bump this for a value-only change (e.g. tweaking a default), only for new/removed keys.
-config-version: 1
+config-version: 2
 
 database:
   # SQLITE or MYSQL
@@ -55,6 +55,19 @@ status:
 
 economy:
   starting-balance: 100.0
+
+# Per-weapon-instance leveling (distinct from enhancement, see items.yml). A weapon starts at
+# its items.yml "level:" and can be raised further via ItemApi#levelUpWeapon /
+# "/ol item levelup", gated by the wielder's own character level.
+weapon-level:
+  # Base attack power bonus per weapon level, e.g. 0.05 = +5% per level.
+  attack-power-factor: 0.05
+  # Weapon level cap while the player's character level is below tier-step.
+  initial-cap: 5
+  # From tier-step player levels onward, the cap becomes floor(playerLevel / tier-step) *
+  # tier-step - e.g. with the defaults, player level 10-19 -> weapon level cap 10, 20-29 -> 20,
+  # 30-39 -> 30, and so on indefinitely.
+  tier-step: 10
 
 # Floating damage-number text (rises for duration-ticks then despawns). Works for any hit,
 # not just monsters - PvP included.

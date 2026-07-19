@@ -38,7 +38,7 @@ public final class SkillDamage {
         var weapon = caster.getInventory().getItemInMainHand();
         WeaponData weaponData = identityService.dataOf(weapon).orElse(null);
         double baseAttackPower = weaponData != null
-                ? weaponData.getAttackPower() * identityService.enhancementMultiplier(weapon)
+                ? identityService.baseAttackPower(weapon, weaponData)
                 : 1.0;
         baseAttackPower *= data.scaledDamageMultiplier(skillLevel);
 

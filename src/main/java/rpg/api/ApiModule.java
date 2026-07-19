@@ -59,7 +59,8 @@ public final class ApiModule implements RpgModule {
         servicesManager.register(OreliaApi.class, api, plugin, ServicePriority.Normal);
         servicesManager.register(StatusApi.class, new StatusApiImpl(statusModule.getStatusService()), plugin, ServicePriority.Normal);
         servicesManager.register(JobApi.class, new JobApiImpl(jobModule.getJobService(), jobModule.getJobManager()), plugin, ServicePriority.Normal);
-        servicesManager.register(ItemApi.class, new ItemApiImpl(itemModule.getItemManager()), plugin, ServicePriority.Normal);
+        servicesManager.register(ItemApi.class,
+                new ItemApiImpl(itemModule.getItemManager(), statusModule.getStatusService()), plugin, ServicePriority.Normal);
         servicesManager.register(AccessoryApi.class,
                 new AccessoryApiImpl(accessoryModule.getRepository(), accessoryModule.getFactory()), plugin, ServicePriority.Normal);
         servicesManager.register(SkillApi.class,
