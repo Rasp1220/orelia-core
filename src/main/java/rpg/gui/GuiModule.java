@@ -95,7 +95,7 @@ public final class GuiModule implements RpgModule {
                 plugin.getServer().getOnlinePlayers().forEach(actionBarService::send),
                 actionBarPeriodTicks, actionBarPeriodTicks);
 
-        plugin.getServer().getPluginManager().registerEvents(new GuiListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new GuiListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new WarehouseSaveListener(warehouseRepository), plugin);
         plugin.getServer().getPluginManager().registerEvents(
                 new EquipmentDisplayRefreshListener(equipmentGuiScreen, plugin.getSchedulerService()), plugin);
