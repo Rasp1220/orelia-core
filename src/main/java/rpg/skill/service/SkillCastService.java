@@ -1,6 +1,7 @@
 package rpg.skill.service;
 
 import org.bukkit.entity.Player;
+import rpg.core.player.PlayerData;
 import rpg.core.player.PlayerDataManager;
 import rpg.item.service.WeaponIdentityService;
 import rpg.skill.manager.SkillExecutorRegistry;
@@ -45,14 +46,18 @@ public final class SkillCastService {
             return Optional.of(CastFailure.UNKNOWN_SKILL);
         }
 
-        boolean holdingRightWeapon = weaponIdentityService.dataOf(caster.getInventory().getItemInMainHand())
-                .map(weapon -> weapon.getWeaponType() == data.getWeaponType())
-                .orElse(false);
-        if (!holdingRightWeapon) {
-            return Optional.of(CastFailure.WRONG_WEAPON);
-        }
-        if (!socketService.hasSkill(caster.getInventory().getItemInMainHand(), skillId)) {
-            return Optional.of(CastFailure.NOT_SOCKETED);
+        boolean debugMode = playerDataManager.get(caster.getUniqueId()).map(PlayerData::isDebugMode).orElse(false);
+
+        if (!debugMode) {
+            boolean holdingRightWeapon = weaponIdentityService.dataOf(caster.getInventory().getItemInMainHand())
+                    .map(weapon -> weapon.getWeaponType() == data.getWeaponType())
+                    .orElse(false);
+            if (!holdingRightWeapon) {
+                return Optional.of(CastFailure.WRONG_WEAPON);
+            }
+            if (!socketService.hasSkill(caster.getInventory().getItemInMainHand(), skillId)) {
+                return Optional.of(CastFailure.NOT_SOCKETED);
+            }
         }
 
         Optional<PlayerSkillComponent> componentOpt = playerDataManager.get(caster.getUniqueId())
@@ -62,16 +67,18 @@ public final class SkillCastService {
         }
         PlayerSkillComponent component = componentOpt.get();
         int skillLevel = component.getSkillLevel(skillId);
-        if (skillLevel <= 0) {
-            return Optional.of(CastFailure.NOT_LEARNED);
-        }
+        if (!debugMode) {
+            if (skillLevel <= 0) {
+                return Optional.of(CastFailure.NOT_LEARNED);
+            }
 
-        long now = System.currentTimeMillis();
-        if (component.isOnCooldown(skillId, now)) {
-            return Optional.of(CastFailure.ON_COOLDOWN);
-        }
-        if (!statusService.tryConsumeSp(caster.getUniqueId(), data.getSpCost())) {
-            return Optional.of(CastFailure.NOT_ENOUGH_SP);
+            long now = System.currentTimeMillis();
+            if (component.isOnCooldown(skillId, now)) {
+                return Optional.of(CastFailure.ON_COOLDOWN);
+            }
+            if (!statusService.tryConsumeSp(caster.getUniqueId(), data.getSpCost())) {
+                return Optional.of(CastFailure.NOT_ENOUGH_SP);
+            }
         }
 
         var executor = executorRegistry.get(data.getExecutorType());
@@ -79,8 +86,10 @@ public final class SkillCastService {
             return Optional.of(CastFailure.NO_EXECUTOR);
         }
 
+        long now = System.currentTimeMillis();
         component.setCooldown(skillId, now + (long) (data.getCooldownSeconds() * 1000));
-        executor.get().execute(caster, data, skillLevel);
+        int effectiveLevel = skillLevel > 0 ? skillLevel : 1;
+        executor.get().execute(caster, data, effectiveLevel);
         return Optional.empty();
     }
 }

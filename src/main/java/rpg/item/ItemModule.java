@@ -49,7 +49,8 @@ public final class ItemModule implements RpgModule {
         WeaponKeys keys = new WeaponKeys(plugin);
         WeaponFactory factory = new WeaponFactory(keys);
         WeaponIdentityService identityService = new WeaponIdentityService(keys, repository, levelConfig);
-        WeaponRequirementService requirementService = new WeaponRequirementService(jobModule.getJobService(), statusModule.getStatusService());
+        WeaponRequirementService requirementService = new WeaponRequirementService(
+                jobModule.getJobService(), statusModule.getStatusService(), plugin.getPlayerDataManager());
         this.itemManager = new ItemManager(repository, factory, identityService, requirementService);
         this.craftingService = new CraftingService(itemManager);
 

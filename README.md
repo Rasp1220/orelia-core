@@ -29,5 +29,6 @@ Orelia は以下のプラグイン群で構成されています。
 - バージョン管理 — `main` への push(=PRマージ)ごとに `.github/workflows/version-bump.yml` が `build.gradle.kts` の `version` を自動でPATCHインクリメントし、タグを打ちます。互換性が壊れる変更は `bump:minor`、大規模な改修は `bump:major` ラベルをPRに付けてからマージしてください。
 - モンスターの強さ — `/oladmin spawnpoint add <monsterId> [intervalSeconds] [maxAlive] [targetLevel]` でスポーンポイントごとに目安レベルを設定でき、そのレベルに応じて `monsters.yml` の HP・攻撃力・防御力が `config.yml: monster-level-scaling` の係数でスケールします(未指定なら従来通りテンプレート値のまま)。
 - 合成 — `/ol craft` で `crafting.yml` に定義されたレシピの一覧を開き、素材を消費して武器を1個作成できます。
+- デバッグモード — プレイヤーごとにon/offできる管理者用フラグ(`rpg.api.DebugApi#isDebugMode`/`setDebugMode`、`orelia-debug`の`/oladmin debugmode`から操作)。有効な間は武器の職業/レベル要件と、スキルの武器種一致・ソケット・習得済み・クールダウン・SP消費の各チェックを全てバイパスして自由に使用できます(武器レベルアップやスキル習得ポイントの上限などの成長系ゲートは対象外)。インメモリのみで再ログインするとリセットされます。
 - 戦闘ダメージ計算式の詳細は [DAMAGE_FORMULA.md](DAMAGE_FORMULA.md) を参照してください。
 - orelia-core/world/extra 3リポジトリを横断した未実装機能一覧は [UNIMPLEMENTED_FEATURES.md](UNIMPLEMENTED_FEATURES.md) を参照してください。

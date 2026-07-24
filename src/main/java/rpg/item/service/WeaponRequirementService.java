@@ -1,5 +1,7 @@
 package rpg.item.service;
 
+import rpg.core.player.PlayerData;
+import rpg.core.player.PlayerDataManager;
 import rpg.item.model.WeaponData;
 import rpg.job.service.JobService;
 import rpg.status.model.PlayerStatusComponent;
@@ -16,13 +18,18 @@ public final class WeaponRequirementService {
 
     private final JobService jobService;
     private final StatusService statusService;
+    private final PlayerDataManager playerDataManager;
 
-    public WeaponRequirementService(JobService jobService, StatusService statusService) {
+    public WeaponRequirementService(JobService jobService, StatusService statusService, PlayerDataManager playerDataManager) {
         this.jobService = jobService;
         this.statusService = statusService;
+        this.playerDataManager = playerDataManager;
     }
 
     public boolean meetsRequirements(UUID uuid, WeaponData data) {
+        if (playerDataManager.get(uuid).map(PlayerData::isDebugMode).orElse(false)) {
+            return true;
+        }
         if (!jobService.canUseWeaponType(uuid, data.getWeaponType())) {
             return false;
         }
