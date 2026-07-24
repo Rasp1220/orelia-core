@@ -1,5 +1,6 @@
 package rpg.api;
 
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.Optional;
@@ -16,4 +17,10 @@ public interface CombatApi {
 
     /** The bosses.yml id wrapping this monster id, if that monster is also a boss. */
     Optional<String> identifyBoss(String monsterId);
+
+    /** Spawns a plain monsters.yml-defined monster (no boss phases/abilities) at the given location. */
+    Optional<LivingEntity> spawnMonster(String monsterId, Location location);
+
+    /** Spawns a bosses.yml-defined boss at the given location (resolves its underlying monster, registers phases/abilities). */
+    Optional<LivingEntity> spawnBoss(String bossId, Location location);
 }
