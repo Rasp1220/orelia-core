@@ -4,14 +4,19 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import rpg.gathering.model.GatherActionType;
+import rpg.gathering.model.GatherBlockTemplate;
 import rpg.gathering.repository.GatheringDefinitionRepository;
 import rpg.gathering.service.PlacedBlockTrackingService;
 
 /**
- * Marks gather-block-typed blocks a player places by hand (e.g. a building log) so
+ * Marks woodcutting-typed blocks a player places by hand (e.g. a building log) so
  * {@code GatherBlockBreakListener} can exclude them from the auto-regen system. WorldEdit-style
  * bulk pastes don't fire this event per block, so decorative structures built that way are
  * unaffected and still behave like natural gathering nodes.
+ *
+ * <p>Mining (ore) blocks are deliberately excluded from this tracking - ore should keep
+ * regenerating unconditionally regardless of how it was placed, unlike logs.
  */
 public final class GatherBlockPlaceListener implements Listener {
 
@@ -26,7 +31,8 @@ public final class GatherBlockPlaceListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if (!definitions.getGatherBlocks().containsKey(block.getType())) {
+        GatherBlockTemplate template = definitions.getGatherBlocks().get(block.getType());
+        if (template == null || template.actionType() != GatherActionType.WOODCUTTING) {
             return;
         }
         trackingService.markPlaced(block.getWorld(), block.getX(), block.getY(), block.getZ());
