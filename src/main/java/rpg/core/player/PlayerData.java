@@ -14,6 +14,7 @@ public final class PlayerData {
 
     private final UUID uuid;
     private volatile String name;
+    private volatile boolean debugMode;
     private final Map<Class<? extends PlayerDataComponent>, PlayerDataComponent> components = new ConcurrentHashMap<>();
 
     public PlayerData(UUID uuid, String name) {
@@ -27,6 +28,19 @@ public final class PlayerData {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Admin-toggled testplay flag (see {@code rpg.api.DebugApi#setDebugMode}) - bypasses
+     * job/level weapon-use and skill-cast gating while enabled. In-memory only, resets to
+     * {@code false} on rejoin; no module owns or persists it.
+     */
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
     public <T extends PlayerDataComponent> void attach(Class<T> type, T component) {

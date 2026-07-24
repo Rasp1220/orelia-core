@@ -2,17 +2,22 @@ package rpg.api;
 
 import rpg.core.config.ConfigFile;
 import rpg.core.config.ConfigManager;
+import rpg.core.player.PlayerData;
+import rpg.core.player.PlayerDataManager;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 final class DebugApiImpl implements DebugApi {
 
     private final ConfigManager configManager;
+    private final PlayerDataManager playerDataManager;
 
-    DebugApiImpl(ConfigManager configManager) {
+    DebugApiImpl(ConfigManager configManager, PlayerDataManager playerDataManager) {
         this.configManager = configManager;
+        this.playerDataManager = playerDataManager;
     }
 
     @Override
@@ -55,6 +60,19 @@ final class DebugApiImpl implements DebugApi {
             return List.of();
         }
         return file.get().getKeys(true).stream().sorted().toList();
+    }
+
+    @Override
+    public boolean isDebugMode(UUID playerId) {
+        return playerDataManager.get(playerId).map(PlayerData::isDebugMode).orElse(false);
+    }
+
+    @Override
+    public boolean setDebugMode(UUID playerId, boolean enabled) {
+        return playerDataManager.get(playerId).map(data -> {
+            data.setDebugMode(enabled);
+            return true;
+        }).orElse(false);
     }
 
     private ConfigFile tryGet(String fileName) {

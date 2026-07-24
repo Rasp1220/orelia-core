@@ -3,6 +3,7 @@ package rpg.api;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Cross-plugin surface for debug/testplay tooling (orelia-debug) to inspect and edit any
@@ -30,4 +31,14 @@ public interface DebugApi {
 
     /** Every key path in {@code fileName}, deep, sorted - for a "confighelp" listing. */
     List<String> describeConfigKeys(String fileName);
+
+    /**
+     * Whether {@code playerId}'s debug mode is currently enabled - while on, job/level weapon-use
+     * and skill-cast requirement checks are bypassed for that player. {@code false} if the player
+     * isn't online (the flag lives only on their in-memory {@code PlayerData}).
+     */
+    boolean isDebugMode(UUID playerId);
+
+    /** Enables/disables debug mode for {@code playerId}. No-op (returns {@code false}) if they aren't online. */
+    boolean setDebugMode(UUID playerId, boolean enabled);
 }

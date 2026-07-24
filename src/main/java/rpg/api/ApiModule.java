@@ -67,7 +67,8 @@ public final class ApiModule implements RpgModule {
                 new SkillApiImpl(skillModule.getProgressService(), skillModule.getSkillRepository()), plugin, ServicePriority.Normal);
         servicesManager.register(EffectApi.class, new EffectApiImpl(effectModule.getPlaybackService()), plugin, ServicePriority.Normal);
         servicesManager.register(EconomyApi.class, new EconomyApiImpl(economyModule.getEconomyService()), plugin, ServicePriority.Normal);
-        servicesManager.register(DebugApi.class, new DebugApiImpl(plugin.getConfigManager()), plugin, ServicePriority.Normal);
+        servicesManager.register(DebugApi.class,
+                new DebugApiImpl(plugin.getConfigManager(), plugin.getPlayerDataManager()), plugin, ServicePriority.Normal);
         servicesManager.register(CombatApi.class,
                 new CombatApiImpl(monsterModule.getSpawnService(), bossModule), plugin, ServicePriority.Normal);
         servicesManager.register(GuiApi.class, new GuiApiImpl(guiModule), plugin, ServicePriority.Normal);
