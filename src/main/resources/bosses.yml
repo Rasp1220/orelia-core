@@ -8,6 +8,7 @@
 # particle must be a valid org.bukkit.Particle name, sound a valid org.bukkit.Sound name.
 # At most one due ability fires per boss per tick (checked every second), oldest-cooldown
 # first in the order they're listed.
+config-version: 1
 
 bosses:
   goblin_king_boss:

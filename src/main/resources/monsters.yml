@@ -11,6 +11,7 @@
 # cooldown-seconds/particle/sound/announce-message. Do not configure abilities here for a monster
 # id that's also referenced by bosses.yml's monster-id (goblin_king, flame_lord below) - that
 # entity spawns through the separate boss ability system instead when spawned as a boss.
+config-version: 1
 
 monsters:
   forest_slime:

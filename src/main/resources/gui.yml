@@ -1,5 +1,6 @@
 # Overrides for the inventory screen titles built by the gui module (SOW section 17).
 # Any key left out falls back to the Japanese default baked into the matching screen class.
+config-version: 1
 
 titles:
   status: "&%8ステータス"

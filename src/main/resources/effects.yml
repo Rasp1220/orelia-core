@@ -1,5 +1,6 @@
 # Reusable particle/sound bundles (SOW EffectModule). particle must be a valid
 # org.bukkit.Particle name, sound a valid org.bukkit.Sound name (or omitted for none).
+config-version: 1
 
 effects:
   level_up:

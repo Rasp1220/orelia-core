@@ -2,6 +2,7 @@
 # `recipes:` - no code change required. result-weapon-id must exist in items.yml's weapons:
 # map (v1 only supports crafting weapons, no generic material output). ingredients are raw
 # vanilla Material enum names.
+config-version: 1
 
 recipes:
   wooden_training_sword_recipe:

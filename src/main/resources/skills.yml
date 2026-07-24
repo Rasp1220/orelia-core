@@ -8,6 +8,7 @@
 #
 # weapon-type: SWORD | SPEAR | AXE | BOW
 # effect-particle must be a valid org.bukkit.Particle name.
+config-version: 1
 
 skills:
   # --- Sword ---
