@@ -69,7 +69,7 @@ public final class ApiModule implements RpgModule {
         servicesManager.register(EconomyApi.class, new EconomyApiImpl(economyModule.getEconomyService()), plugin, ServicePriority.Normal);
         servicesManager.register(DebugApi.class, new DebugApiImpl(plugin.getConfigManager()), plugin, ServicePriority.Normal);
         servicesManager.register(CombatApi.class,
-                new CombatApiImpl(monsterModule.getSpawnService(), bossModule.getRepository()), plugin, ServicePriority.Normal);
+                new CombatApiImpl(monsterModule.getSpawnService(), bossModule), plugin, ServicePriority.Normal);
         servicesManager.register(GuiApi.class, new GuiApiImpl(guiModule), plugin, ServicePriority.Normal);
         servicesManager.register(PlayerDataManager.class, plugin.getPlayerDataManager(), plugin, ServicePriority.Normal);
         servicesManager.register(DatabaseManager.class, databaseModule.getDatabaseManager(), plugin, ServicePriority.Normal);
