@@ -30,6 +30,7 @@
 # level-ranges: level band -> bulk-action radius (SOW 3.3), applied per-activity against
 # that activity's own level. radius 0 = 1x1 (vanilla), radius 1 = 3x3, radius 2 = 5x5,
 # etc. A level above every listed band keeps the highest band's radius.
+config-version: 1
 
 regen-tick-period-ticks: 100 # 100 ticks = 5 seconds
 

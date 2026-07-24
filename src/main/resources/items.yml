@@ -13,6 +13,7 @@
 # entirely from the id (this section's key) stamped onto it as a hidden tag when created, not
 # from its visible Material, so the two never get confused with each other or with a plain
 # vanilla axe/pickaxe/hoe a player is holding for ordinary block-breaking.
+config-version: 1
 
 weapons:
   wooden_training_sword:

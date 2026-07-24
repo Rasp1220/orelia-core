@@ -1,5 +1,6 @@
 # Accessory definitions (SOW section 8). type: CHARM | RING | NECKLACE | WING - each type
 # only takes effect while sitting in its matching bottom-row inventory slot.
+config-version: 1
 
 accessories:
   guardian_charm:

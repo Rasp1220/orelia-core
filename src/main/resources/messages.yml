@@ -1,6 +1,7 @@
 # Centralized user-facing text. Every chat message the plugin sends goes through
 # rpg.core.message.MessageManager, keyed by the dotted paths below - do not hardcode
 # ChatColor + literal strings in command/listener/service code, add a key here instead.
+config-version: 1
 
 prefix: "&%8[&%6Orelia&%8] &r"
 
