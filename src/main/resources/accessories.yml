@@ -1,6 +1,6 @@
 # Accessory definitions (SOW section 8). type: CHARM | RING | NECKLACE | WING - each type
 # only takes effect while sitting in its matching bottom-row inventory slot.
-config-version: 1
+config-version: 2
 
 accessories:
   guardian_charm:
@@ -13,6 +13,16 @@ accessories:
       - "&%7最大HPと防御力を高める護符。"
     custom-model-data: 200001
 
+  greater_guardian_charm:
+    name: "大守護の護符"
+    type: CHARM
+    stat-bonus:
+      HP: 60
+      DEF: 4
+    description:
+      - "&%7守護の護符を上回る加護を宿した上位の護符。"
+    custom-model-data: 200002
+
   warriors_ring:
     name: "戦士の指輪"
     type: RING
@@ -23,6 +33,16 @@ accessories:
       - "&%7会心の一撃を後押しする指輪。"
     custom-model-data: 200101
 
+  berserkers_ring:
+    name: "猛戦士の指輪"
+    type: RING
+    stat-bonus:
+      ATK: 6
+      CRT: 3
+    description:
+      - "&%7戦士の指輪を上回る攻撃力と会心率を宿した上位の指輪。"
+    custom-model-data: 200102
+
   mages_necklace:
     name: "賢者のネックレス"
     type: NECKLACE
@@ -32,9 +52,25 @@ accessories:
       - "&%7SP回復とスキルの冴えを高めるネックレス。"
     custom-model-data: 200201
 
+  archmages_necklace:
+    name: "大賢者のネックレス"
+    type: NECKLACE
+    stat-bonus:
+      SP: 40
+    description:
+      - "&%7賢者のネックレスを上回るSPの冴えを宿した上位のネックレス。"
+    custom-model-data: 200202
+
   swift_wing:
     name: "疾風の羽"
     type: WING
     description:
       - "&%7移動速度を高める羽。"
     custom-model-data: 200301
+
+  phoenix_wing:
+    name: "不死鳥の羽"
+    type: WING
+    description:
+      - "&%7疾風の羽を上回る速さで空を駆ける、不死鳥の羽根。"
+    custom-model-data: 200302

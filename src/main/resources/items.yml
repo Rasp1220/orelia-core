@@ -20,7 +20,7 @@
 # entirely from the id (this section's key) stamped onto it as a hidden tag when created, not
 # from its visible Material, so the two never get confused with each other or with a plain
 # vanilla axe/pickaxe/hoe a player is holding for ordinary block-breaking.
-config-version: 1
+config-version: 2
 
 weapons:
   wooden_training_sword:
@@ -57,6 +57,40 @@ weapons:
     sell-price: 500.0
     skill-slot-count: 2
 
+  iron_shortsword:
+    name: "鉄の小剣"
+    weapon-type: SWORD
+    level: 3
+    rarity: COMMON
+    attack-power: 8.0
+    element: NONE
+    crit-rate: 6.0
+    crit-multiplier: 1.5
+    required-job: FENCER
+    required-level: 3
+    description:
+      - "&%7見習いの剣の次に扱う、鉄製の軽い小剣。"
+    custom-model-data: 100003
+    sell-price: 40.0
+    skill-slot-count: 1
+
+  dragonslayer_blade:
+    name: "竜殺しの剣"
+    weapon-type: SWORD
+    level: 20
+    rarity: LEGENDARY
+    attack-power: 48.0
+    element: DARK
+    crit-rate: 18.0
+    crit-multiplier: 2.2
+    required-job: FENCER
+    required-level: 20
+    description:
+      - "&%7深淵の亡霊を討った者だけが手にする漆黒の大剣。"
+    custom-model-data: 100004
+    sell-price: 2000.0
+    skill-slot-count: 2
+
   hunters_spear:
     name: "狩人の槍"
     weapon-type: SPEAR
@@ -75,6 +109,41 @@ weapons:
     custom-model-data: 100101
     sell-price: 120.0
     skill-slot-count: 2
+
+  frozen_glaive:
+    name: "氷結のグレイブ"
+    weapon-type: SPEAR
+    level: 15
+    rarity: EPIC
+    attack-power: 34.0
+    element: WATER
+    crit-rate: 12.0
+    crit-multiplier: 1.9
+    # No job currently has SPEAR in allowed-weapons (jobs.yml), same limitation as hunters_spear.
+    required-job:
+    required-level: 15
+    description:
+      - "&%7氷結の射手が振るっていた、刃に霜を纏う長槍。"
+    custom-model-data: 100102
+    sell-price: 900.0
+    skill-slot-count: 2
+
+  steel_axe:
+    name: "鋼の斧"
+    weapon-type: AXE
+    level: 4
+    rarity: COMMON
+    attack-power: 11.0
+    element: NONE
+    crit-rate: 5.0
+    crit-multiplier: 1.6
+    required-job: WARRIOR
+    required-level: 4
+    description:
+      - "&%7洞窟トロルが振り回していた頑丈な斧。"
+    custom-model-data: 100206
+    sell-price: 60.0
+    skill-slot-count: 1
 
   berserkers_axe:
     name: "狂戦士の斧"

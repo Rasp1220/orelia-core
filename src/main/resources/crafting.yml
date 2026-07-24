@@ -2,7 +2,7 @@
 # `recipes:` - no code change required. result-weapon-id must exist in items.yml's weapons:
 # map (v1 only supports crafting weapons, no generic material output). ingredients are raw
 # vanilla Material enum names.
-config-version: 1
+config-version: 2
 
 recipes:
   wooden_training_sword_recipe:
@@ -15,3 +15,66 @@ recipes:
         amount: 1
     description:
       - "&%7木材と棒で作れる、剣士見習いのための訓練用の剣。"
+
+  iron_shortsword_recipe:
+    name: "鉄の小剣"
+    result-weapon-id: iron_shortsword
+    ingredients:
+      - material: IRON_INGOT
+        amount: 2
+      - material: STICK
+        amount: 1
+    description:
+      - "&%7鉄インゴットと棒で作れる、軽くて扱いやすい小剣。"
+
+  hunters_spear_recipe:
+    name: "狩人の槍"
+    result-weapon-id: hunters_spear
+    ingredients:
+      - material: IRON_INGOT
+        amount: 2
+      - material: STICK
+        amount: 2
+      - material: FEATHER
+        amount: 1
+    description:
+      - "&%7鉄と羽根で作る、遠距離からの突きに優れた槍。"
+
+  hawkeye_bow_recipe:
+    name: "鷹の眼の弓"
+    result-weapon-id: hawkeye_bow
+    ingredients:
+      - material: STRING
+        amount: 3
+      - material: STICK
+        amount: 2
+      - material: FEATHER
+        amount: 1
+    description:
+      - "&%7糸と棒で作る、風を読む狩人のための弓。"
+
+  berserkers_axe_recipe:
+    name: "狂戦士の斧"
+    result-weapon-id: berserkers_axe
+    ingredients:
+      - material: IRON_INGOT
+        amount: 3
+      - material: STICK
+        amount: 1
+      - material: BLAZE_POWDER
+        amount: 1
+    description:
+      - "&%7鉄と業火の粉で鍛える、重厚な一撃を放つ両手斧。"
+
+  flame_longsword_recipe:
+    name: "紅蓮の長剣"
+    result-weapon-id: flame_longsword
+    ingredients:
+      - material: NETHERITE_SCRAP
+        amount: 2
+      - material: BLAZE_ROD
+        amount: 1
+      - material: IRON_INGOT
+        amount: 1
+    description:
+      - "&%7ネザライトの欠片と業火の棒で鍛える、常に紅蓮の炎を纏う長剣。"

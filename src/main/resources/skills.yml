@@ -8,7 +8,7 @@
 #
 # weapon-type: SWORD | SPEAR | AXE | BOW
 # effect-particle must be a valid org.bukkit.Particle name.
-config-version: 1
+config-version: 2
 
 skills:
   # --- Sword ---
@@ -64,6 +64,19 @@ skills:
     knockback: 0.4
     max-level: 5
 
+  moonlight_slash:
+    name: "月光斬"
+    weapon-type: SWORD
+    executor-type: MELEE_CONE
+    sp-cost: 16
+    cooldown-seconds: 7
+    damage-multiplier: 1.85
+    effect-particle: END_ROD
+    range: 5.0
+    radius: 0
+    knockback: 0.4
+    max-level: 5
+
   # --- Spear ---
   charge_thrust:
     name: "突進"
@@ -102,6 +115,19 @@ skills:
     range: 5.0
     radius: 0
     knockback: 0.9
+    max-level: 5
+
+  piercing_thrust:
+    name: "貫き突き"
+    weapon-type: SPEAR
+    executor-type: DASH_STRIKE
+    sp-cost: 18
+    cooldown-seconds: 9
+    damage-multiplier: 1.8
+    effect-particle: CRIT
+    range: 6.5
+    radius: 0
+    knockback: 0.6
     max-level: 5
 
   # --- Axe ---
@@ -144,6 +170,19 @@ skills:
     knockback: 0.5
     max-level: 5
 
+  whirlwind:
+    name: "旋風斬り"
+    weapon-type: AXE
+    executor-type: MELEE_AOE
+    sp-cost: 22
+    cooldown-seconds: 13
+    damage-multiplier: 1.9
+    effect-particle: SWEEP_ATTACK
+    range: 0
+    radius: 4.2
+    knockback: 0.7
+    max-level: 5
+
   # --- Bow ---
   power_shot:
     name: "パワーショット"
@@ -182,4 +221,17 @@ skills:
     range: 30.0
     radius: 3.0
     knockback: 0.4
+    max-level: 5
+
+  piercing_shot:
+    name: "貫通の矢"
+    weapon-type: BOW
+    executor-type: ARROW_VOLLEY
+    sp-cost: 14
+    cooldown-seconds: 6
+    damage-multiplier: 1.6
+    effect-particle: CRIT
+    range: 28.0
+    radius: 0
+    knockback: 0
     max-level: 5
