@@ -86,7 +86,7 @@ public final class GatheringModule implements RpgModule {
         trackingService.loadPlaced();
 
         plugin.getServer().getPluginManager().registerEvents(
-                new GatherBlockBreakListener(definitions, regenService, levelService, radiusConfig, protectionService,
+                new GatherBlockBreakListener(definitions, regenService, levelService, protectionService,
                         jobModule.getJobManager(), trackingService, plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(
                 new GatherBlockPlaceListener(definitions, trackingService), plugin);
